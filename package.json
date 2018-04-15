@@ -1,0 +1,20 @@
+{
+  "name": "webduino-bit-module-mpu9250",
+  "version": "1.0.0",
+  "description": "MPU9250 Module for Webduino:bit",
+  "main": "MPU9250-blockly.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "keywords": [
+    "arduino",
+    "webduino",
+    "led",
+    "webduino:bit"
+  ],
+  "dependencies": {
+    "webduino-js": "0.x"
+  }
+}
