@@ -1,7 +1,5 @@
-Blockly.Msg.WEBDUINO_LED_MATRIX = "全彩点距阵";
-Blockly.Msg.WEBDUINO_LED_MATRIX_LED_SET = "设定";
-Blockly.Msg.WEBDUINO_LED_MATRIX_LED_SELECT_COLOR = "选择色彩";
-Blockly.Msg.WEBDUINO_LED_MATRIX_LED_BRIGHTNESS = "亮度(1~127)";
-Blockly.Msg.WEBDUINO_LED_MATRIX_LED_NUMBER = "第";
-Blockly.Msg.WEBDUINO_LED_MATRIX_LED_COLOR_TO = "颗色彩为";
-Blockly.Msg.WEBDUINO_LED_MATRIX_CLOSE = "关闭";
+Blockly.Msg.WEBDUINO_MPU9250 = "热敏电阻";
+Blockly.Msg.WEBDUINO_MPU9250_DETECTED = "开始侦测";
+Blockly.Msg.WEBDUINO_MPU9250_DO = "执行";
+Blockly.Msg.WEBDUINO_MPU9250_VAL = "目前温度";
+Blockly.Msg.WEBDUINO_MPU9250_STOP = "停止侦测";

@@ -35,10 +35,10 @@
     this.ACCELEROMETER = 'Accelerometer';
     this.GYROSCOPE = 'Gyroscope';
     this.MAGNETOMETER = 'Magnetometer';
-    this._callback = function (info) {};
-    this._a_callback = function (t, x, y, z) {};
-    this._g_callback = function (t, x, y, z) {};
-    this._m_callback = function (t, x, y, z) {};
+    this._callback = function (info) { };
+    this._a_callback = function (t, x, y, z) { };
+    this._g_callback = function (t, x, y, z) { };
+    this._m_callback = function (t, x, y, z) { };
   }
 
   function parseMPU9250Info(q) {
@@ -105,7 +105,7 @@
   proto.on = function (sensorType, callback) {
     if (this._state != 'on') {
       this._state = 'on';
-      this._board.send([0xf0, 0x04, 0x60, 0x02 /*start*/ , 0xf7]);
+      this._board.send([0xf0, 0x04, 0x60, 0x02 /*start*/, 0xf7]);
       this._board.on(BoardEvent.SYSEX_MESSAGE, this._messageHandler);
     }
     if (arguments.length == 0) {

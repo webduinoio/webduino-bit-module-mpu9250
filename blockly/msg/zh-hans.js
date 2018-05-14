@@ -1,1 +1,1 @@
-MSG.catLedMatrix = "全彩点矩阵";
+MSG.catMPU9250 = "九轴感测器";

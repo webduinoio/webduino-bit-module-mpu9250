@@ -1,29 +1,11 @@
-<category id="catLedMatrix" index="9">
+<category id="catMPU9250" index="9">
   <block type="variables_set">
-    <field name="VAR">matrix</field>
+    <field name="VAR">mpu9250</field>
     <value name="VALUE">
-      <block type="matrix_new"></block>
+      <block type="mpu9250_new"></block>
     </value>
   </block>
-  <block type="matrix_color"></block>
-  <block type="matrix_color_single">
-    <value name="led_">
-      <block type="math_number">
-        <field name="NUM">1</field>
-      </block>
-    </value>
-    <value name="color_">
-      <block type="colour_picker">
-        <field name="COLOUR">#ff0000</field>
-      </block>
-    </value>
-  </block>
-  <block type="matrix_off"></block>
-  <block type="matrix_brightness">
-    <value name="brightness_">
-      <block type="math_number">
-        <field name="NUM">60</field>
-      </block>
-    </value>
-  </block>
+  <block type="mpu9250_detected"></block>
+  <block type="mpu9250_val"></block>
+  <block type="mpu9250_stop"></block>
 </category>

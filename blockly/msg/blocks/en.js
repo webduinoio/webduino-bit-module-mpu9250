@@ -1,7 +1,5 @@
-Blockly.Msg.WEBDUINO_LED_MATRIX = "LED Matrix";
-Blockly.Msg.WEBDUINO_LED_MATRIX_LED_SET = "Set";
-Blockly.Msg.WEBDUINO_LED_MATRIX_LED_SELECT_COLOR = "Select color";
-Blockly.Msg.WEBDUINO_LED_MATRIX_LED_BRIGHTNESS = "Brightness (1~127)";
-Blockly.Msg.WEBDUINO_LED_MATRIX_LED_NUMBER = "color of #";
-Blockly.Msg.WEBDUINO_LED_MATRIX_LED_COLOR_TO = "LED to";
-Blockly.Msg.WEBDUINO_LED_MATRIX_CLOSE = "Turn off";
+Blockly.Msg.WEBDUINO_MPU9250 = "Thermistor";
+Blockly.Msg.WEBDUINO_MPU9250_DETECTED = "When Detecting";
+Blockly.Msg.WEBDUINO_MPU9250_DO = "Do";
+Blockly.Msg.WEBDUINO_MPU9250_VAL = "Current Temperature";
+Blockly.Msg.WEBDUINO_MPU9250_STOP = "Stop Detecting";

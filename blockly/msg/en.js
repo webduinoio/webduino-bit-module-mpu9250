@@ -1,1 +1,1 @@
-MSG.catLedMatrix = "LED Matrix";
+MSG.catMPU9250 = "MPU9250";

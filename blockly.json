@@ -1,6 +1,9 @@
 {
   "types": [
-    "mpu9250_new"
+    "mpu9250_new",
+    "mpu9250_detected",
+    "mpu9250_val",
+    "mpu9250_stop"
   ],
   "category": "toolbox",
   "scripts": [

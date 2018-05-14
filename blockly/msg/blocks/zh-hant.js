@@ -1,7 +1,6 @@
-Blockly.Msg.WEBDUINO_LED_MATRIX = "全彩點距陣";
-Blockly.Msg.WEBDUINO_LED_MATRIX_LED_SET = "設定";
-Blockly.Msg.WEBDUINO_LED_MATRIX_LED_SELECT_COLOR = "選擇色彩";
-Blockly.Msg.WEBDUINO_LED_MATRIX_LED_BRIGHTNESS = "亮度(1~127)";
-Blockly.Msg.WEBDUINO_LED_MATRIX_LED_NUMBER = "第";
-Blockly.Msg.WEBDUINO_LED_MATRIX_LED_COLOR_TO = "顆色彩為";
-Blockly.Msg.WEBDUINO_LED_MATRIX_CLOSE = "關閉";
+Blockly.Msg.WEBDUINO_MPU9250 = "九軸感測器";
+Blockly.Msg.WEBDUINO_MPU9250_DETECTED = "開始偵測";
+Blockly.Msg.WEBDUINO_MPU9250_DO = "執行";
+Blockly.Msg.WEBDUINO_MPU9250_VAL = "數值";
+Blockly.Msg.WEBDUINO_MPU9250_S = "的";
+Blockly.Msg.WEBDUINO_MPU9250_STOP = "停止偵測";
