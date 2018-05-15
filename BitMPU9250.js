@@ -41,10 +41,12 @@
     this._board = board;
     this._detectTime = 250;
     this._messageHandler = onMessage.bind(this);
-    this._callbackNum = 0;
-    this._a_callback = function (x, y, z, t) { };
-    this._g_callback = function (x, y, z, t) { };
-    this._m_callback = function (x, y, z, t) { };
+    this._startDetect = startDetect.bind(this);
+    this._stopDetect = stopDetect.bind(this);
+    this._stopDetectAll = stopDetectAll.bind(this);
+    this._a_handlers = [];
+    this._g_handlers = [];
+    this._m_handlers = [];
   }
 
   function parseMPU9250Info(q) {
@@ -71,15 +73,102 @@
         console.log("Stop mpu9250 detect.");
         break;
       case 0x11: //accelerometer data
-        this._a_callback(info[1], info[2], info[3], t);
+        this._a_handlers.forEach(function (cb) {
+          cb.call(null, info[1], info[2], info[3], t);
+        });
         break;
       case 0x12: //gyroscope data
-        this._g_callback(info[1], info[2], info[3], t);
+        this._g_handlers.forEach(function (cb) {
+          cb.call(null, info[1], info[2], info[3], t);
+        });
         break;
       case 0x13: //magnetometer data
-        this._m_callback(info[1], info[2], info[3], t);
+        this._m_handlers.forEach(function (cb) {
+          cb.call(null, info[1], info[2], info[3], t);
+        });
         break;
     }
+  }
+
+  function startDetect(sensorType, handler) {
+    if (typeof handler !== 'function') {
+      return false;
+    }
+    switch (sensorType) {
+      case MPU9250Event.ACCELEROMETER_MESSAGE:
+        if (this._a_handlers.length === 0) {
+          this._board.send(COMMAND.START_ACC);
+        }
+        this._a_handlers.push(handler);
+        break;
+      case MPU9250Event.GYROSCOPE_MESSAGE:
+        if (this._g_handlers.length === 0) {
+          this._board.send(COMMAND.START_GYR);
+        }
+        this._g_handlers.push(handler);
+        break;
+      case MPU9250Event.MAGNETOMETER_MESSAGE:
+        if (this._m_handlers.length === 0) {
+          this._board.send(COMMAND.START_MAG);
+        }
+        this._m_handlers.push(handler);
+        break;
+      default:
+        return false;
+        break;
+    }
+    return true;
+  }
+
+  function stopDetect(sensorType, handler) {
+    switch (sensorType) {
+      case MPU9250Event.ACCELEROMETER_MESSAGE:
+        var idx = this._a_handlers.indexOf(handler);
+        this._a_handlers.splice(idx, 1);
+        if (this._a_handlers.length === 0) {
+          this._board.send(COMMAND.STOP_ACC);
+        }
+        break;
+      case MPU9250Event.GYROSCOPE_MESSAGE:
+        var idx = this._g_handlers.indexOf(handler);
+        this._g_handlers.splice(idx, 1);
+        if (this._g_handlers.length === 0) {
+          this._board.send(COMMAND.STOP_GYR);
+        }
+        break;
+      case MPU9250Event.MAGNETOMETER_MESSAGE:
+        var idx = this._m_handlers.indexOf(handler);
+        this._m_handlers.splice(idx, 1);
+        if (this._m_handlers.length === 0) {
+          this._board.send(COMMAND.STOP_MAG);
+        }
+        break;
+      default:
+        return false;
+        break;
+    }
+    return true;
+  }
+
+  function stopDetectAll(sensorType) {
+    switch (sensorType) {
+      case MPU9250Event.ACCELEROMETER_MESSAGE:
+        this._a_handlers.length = 0;
+        this._board.send(COMMAND.STOP_ACC);
+        break;
+      case MPU9250Event.GYROSCOPE_MESSAGE:
+        this._g_handlers.length = 0;
+        this._board.send(COMMAND.STOP_GYR);
+        break;
+      case MPU9250Event.MAGNETOMETER_MESSAGE:
+        this._m_handlers.length = 0;
+        this._board.send(COMMAND.STOP_MAG);
+        break;
+      default:
+        return false;
+        break;
+    }
+    return true;
   }
 
   MPU9250.prototype = proto = Object.create(Module.prototype, {
@@ -96,84 +185,26 @@
     }
   });
 
-  proto.startDetectAccelerometer = function (callback) {
-    this._a_callback = callback;
-    this._board.send(COMMAND.START_ACC);
-    this._callbackNum++;
-  }
-
-  proto.startDetectGyroscope = function (callback) {
-    this._g_callback = callback;
-    this._board.send(COMMAND.START_GYR);
-    this._callbackNum++;
-  }
-
-  proto.startDetectMagnetometer = function (callback) {
-    this._m_callback = callback;
-    this._board.send(COMMAND.START_MAG);
-    this._callbackNum++;
-  }
-
-  proto.stopDetectAccelerometer = function () {
-    this._a_callback = function (x, y, z, t) { };
-    this._board.send(COMMAND.STOP_ACC);
-    this._callbackNum--;
-  }
-
-  proto.stopDetectGyroscope = function () {
-    this._g_callback = function (x, y, z, t) { };
-    this._board.send(COMMAND.STOP_GYR);
-    this._callbackNum--;
-  }
-
-  proto.stopDetectMagnetometer = function () {
-    this._m_callback = function (x, y, z, t) { };
-    this._board.send(COMMAND.STOP_MAG);
-    this._callbackNum--;
-  }
-
-  proto.on = function (sensorType, callback) {
+  proto.on = function (sensorType, handler) {
     if (arguments.length !== 2) {
       return false;
     }
-    switch (sensorType) {
-      case MPU9250Event.ACCELEROMETER_MESSAGE:
-        this.startDetectAccelerometer(callback);
-        break;
-      case MPU9250Event.GYROSCOPE_MESSAGE:
-        this.startDetectGyroscope(callback);
-        break;
-      case MPU9250Event.MAGNETOMETER_MESSAGE:
-        this.startDetectMagnetometer(callback);
-        break;
-      default:
-        return false;
-        break;
-    }
-    if (this._state !== 'on') {
+    var result = this._startDetect(sensorType, handler);
+    if (result && this._state !== 'on') {
       this._state = 'on';
       this._board.send(COMMAND.START_DETECT);
       this._board.on(BoardEvent.SYSEX_MESSAGE, this._messageHandler);
     }
   };
 
-  proto.off = function (sensorType) {
-    switch (sensorType) {
-      case MPU9250Event.ACCELEROMETER_MESSAGE:
-        this.stopDetectAccelerometer();
-        break;
-      case MPU9250Event.GYROSCOPE_MESSAGE:
-        this.stopDetectGyroscope();
-        break;
-      case MPU9250Event.MAGNETOMETER_MESSAGE:
-        this.stopDetectMagnetometer();
-        break;
-      default:
-        return false;
-        break;
+  proto.off = function (sensorType, handler) {
+    var result;
+    if (arguments.length === 1) {
+      result = this._stopDetectAll(sensorType);
+    } else {
+      result = this._stopDetect(sensorType, handler);
     }
-
-    if (this._callbackNum === 0) {
+    if (result && !this._a_handlers.length && !this._g_handlers.length && !this._m_handlers.length) {
       this._state = 'off';
       this._board.send(COMMAND.STOP_DETECT);
       this._board.removeListener(BoardEvent.SYSEX_MESSAGE, this._messageHandler);
