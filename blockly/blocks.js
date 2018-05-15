@@ -65,3 +65,18 @@ Blockly.Blocks['mpu9250_stop'] = {
     this.setHelpUrl('');
   }
 };
+
+Blockly.Blocks['mpu9250_detectTime'] = {
+  init: function () {
+    this.appendValueInput('detectTime_')
+      .setCheck(null)
+      .appendField(Blockly.Msg.WEBDUINO_MPU9250_SET)
+      .appendField(new Blockly.FieldVariable('mpu9250'), 'name_')
+      .appendField(Blockly.Msg.WEBDUINO_MPU9250_DETECTTIME)
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(65);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};

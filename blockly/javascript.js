@@ -29,3 +29,10 @@ Blockly.JavaScript['mpu9250_stop'] = function (block) {
   var code = variable_name_ + '.off(' + dropdown_type_ + ');\n';
   return code;
 };
+
+Blockly.JavaScript['mpu9250_detectTime'] = function (block) {
+  var variable_matrix_ = Blockly.JavaScript.variableDB_.getName(block.getFieldValue('name_'), Blockly.Variables.NAME_TYPE);
+  var value_detectTime_ = Blockly.JavaScript.valueToCode(block, 'detectTime_', Blockly.JavaScript.ORDER_ATOMIC);
+  var code = variable_matrix_ + '.setDetectTime(' + value_detectTime_ + ');\n';
+  return code;
+};

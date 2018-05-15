@@ -8,4 +8,11 @@
   <block type="mpu9250_detected"></block>
   <block type="mpu9250_val"></block>
   <block type="mpu9250_stop"></block>
+  <block type="mpu9250_detectTime">
+    <value name="detectTime_">
+      <block type="math_number">
+        <field name="NUM">250</field>
+      </block>
+    </value>
+  </block>
 </category>
