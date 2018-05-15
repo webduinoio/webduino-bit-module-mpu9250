@@ -17,6 +17,17 @@
     MAGNETOMETER_MESSAGE: 'm',
   };
 
+  var COMMAND = {
+    "START_DETECT": [0xf0, 0x04, 0x60, 0x02 /*start*/, 0xf7],
+    "STOP_DETECT": [0xf0, 0x04, 0x60, 0x03, 0xf7],
+    "START_ACC": [0xf0, 0x04, 0x60, 0x11, 0x1, 0xf7],
+    "STOP_ACC": [0xf0, 0x04, 0x60, 0x11, 0x0, 0xf7],
+    "START_GYR": [0xf0, 0x04, 0x60, 0x12, 0x1, 0xf7],
+    "STOP_GYR": [0xf0, 0x04, 0x60, 0x12, 0x0, 0xf7],
+    "START_MAG": [0xf0, 0x04, 0x60, 0x13, 0x1, 0xf7],
+    "STOP_MAG": [0xf0, 0x04, 0x60, 0x13, 0x0, 0xf7]
+  };
+
   /**
    * The MPU9250 class.
    * @namespace webduino.module
@@ -87,37 +98,37 @@
 
   proto.startDetectAccelerometer = function (callback) {
     this._a_callback = callback;
-    this._board.send([0xf0, 0x04, 0x60, 0x11, 0x1, 0xf7]);
+    this._board.send(COMMAND.START_ACC);
     this._callbackNum++;
   }
 
   proto.startDetectGyroscope = function (callback) {
     this._g_callback = callback;
-    this._board.send([0xf0, 0x04, 0x60, 0x12, 0x1, 0xf7]);
+    this._board.send(COMMAND.START_GYR);
     this._callbackNum++;
   }
 
   proto.startDetectMagnetometer = function (callback) {
     this._m_callback = callback;
-    this._board.send([0xf0, 0x04, 0x60, 0x13, 0x1, 0xf7]);
+    this._board.send(COMMAND.START_MAG);
     this._callbackNum++;
   }
 
   proto.stopDetectAccelerometer = function () {
     this._a_callback = function (x, y, z, t) { };
-    this._board.send([0xf0, 0x04, 0x60, 0x11, 0x0, 0xf7]);
+    this._board.send(COMMAND.STOP_ACC);
     this._callbackNum--;
   }
 
   proto.stopDetectGyroscope = function () {
     this._g_callback = function (x, y, z, t) { };
-    this._board.send([0xf0, 0x04, 0x60, 0x12, 0x0, 0xf7]);
+    this._board.send(COMMAND.STOP_GYR);
     this._callbackNum--;
   }
 
   proto.stopDetectMagnetometer = function () {
     this._m_callback = function (x, y, z, t) { };
-    this._board.send([0xf0, 0x04, 0x60, 0x13, 0x0, 0xf7]);
+    this._board.send(COMMAND.STOP_MAG);
     this._callbackNum--;
   }
 
@@ -141,7 +152,7 @@
     }
     if (this._state !== 'on') {
       this._state = 'on';
-      this._board.send([0xf0, 0x04, 0x60, 0x02 /*start*/, 0xf7]);
+      this._board.send(COMMAND.START_DETECT);
       this._board.on(BoardEvent.SYSEX_MESSAGE, this._messageHandler);
     }
   };
@@ -164,7 +175,7 @@
 
     if (this._callbackNum === 0) {
       this._state = 'off';
-      this._board.send([0xf0, 0x04, 0x60, 0x03, 0xf7]);
+      this._board.send(COMMAND.STOP_DETECT);
       this._board.removeListener(BoardEvent.SYSEX_MESSAGE, this._messageHandler);
     }
   };
