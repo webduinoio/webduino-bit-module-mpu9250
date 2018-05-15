@@ -15,15 +15,20 @@ Blockly.Blocks['mpu9250_new'] = {
 Blockly.Blocks['mpu9250_detected'] = {
   init: function () {
     this.appendDummyInput()
-      .appendField(new Blockly.FieldVariable('mpu9250'), 'name_')
-      .appendField(Blockly.Msg.WEBDUINO_MPU9250_DETECTED);
-    this.appendStatementInput('detected_')
+      .appendField(new Blockly.FieldVariable("mpu9250"), "name_")
+      .appendField(Blockly.Msg.WEBDUINO_MPU9250_DETECTED)
+      .appendField(new Blockly.FieldDropdown([
+        [Blockly.Msg.WEBDUINO_MPU9250_GYROSCOPE, 'webduino.module.MPU9250Event.GYROSCOPE_MESSAGE'], 
+        [Blockly.Msg.WEBDUINO_MPU9250_ACCELEROMETER, 'webduino.module.MPU9250Event.ACCELEROMETER_MESSAGE'], 
+        [Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER, 'webduino.module.MPU9250Event.MAGNETOMETER_MESSAGE']
+      ]), 'type_');
+    this.appendStatementInput("do_")
       .appendField(Blockly.Msg.WEBDUINO_MPU9250_DO);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setColour(65);
-    this.setTooltip('');
-    this.setHelpUrl('');
+    this.setTooltip("");
+    this.setHelpUrl("");
   }
 };
 
@@ -33,21 +38,13 @@ Blockly.Blocks['mpu9250_val'] = {
       .appendField(new Blockly.FieldVariable("mpu9250"), "name_")
       .appendField(Blockly.Msg.WEBDUINO_MPU9250_S)
       .appendField(new Blockly.FieldDropdown([
-        ["x_1", "_x1"],
-        ["y_1", "_y1"],
-        ["z_1", "_z1"],
-        ["x_2", "_x2"],
-        ["y_2", "_y2"],
-        ["z_2", "_z2"],
-        ["x_3", "_x3"],
-        ["y_3", "_y3"],
-        ["z_3", "_z3"],
+        ["x", "_x"], ["y", "_y"], ["z", "_z"]
       ]), "val_")
       .appendField(Blockly.Msg.WEBDUINO_MPU9250_VAL);
-    this.setOutput(true);
+    this.setOutput(true, null);
     this.setColour(35);
-    this.setTooltip('');
-    this.setHelpUrl('');
+    this.setTooltip("");
+    this.setHelpUrl("");
   }
 };
 
@@ -55,7 +52,12 @@ Blockly.Blocks['mpu9250_stop'] = {
   init: function () {
     this.appendDummyInput()
       .appendField(new Blockly.FieldVariable('mpu9250'), 'name_')
-      .appendField(Blockly.Msg.WEBDUINO_MPU9250_STOP);
+      .appendField(Blockly.Msg.WEBDUINO_MPU9250_STOP)
+      .appendField(new Blockly.FieldDropdown([
+        [Blockly.Msg.WEBDUINO_MPU9250_GYROSCOPE, 'stopDetectGyroscope'],
+        [Blockly.Msg.WEBDUINO_MPU9250_ACCELEROMETER, 'stopAccelerometer'],
+        [Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER, 'stopDetectMagnetometer']
+      ]), 'type_');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setColour(65);

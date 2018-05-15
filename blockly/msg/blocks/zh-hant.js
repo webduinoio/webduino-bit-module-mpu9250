@@ -4,3 +4,6 @@ Blockly.Msg.WEBDUINO_MPU9250_DO = "執行";
 Blockly.Msg.WEBDUINO_MPU9250_VAL = "數值";
 Blockly.Msg.WEBDUINO_MPU9250_S = "的";
 Blockly.Msg.WEBDUINO_MPU9250_STOP = "停止偵測";
+Blockly.Msg.WEBDUINO_MPU9250_GYROSCOPE = "陀螺儀";
+Blockly.Msg.WEBDUINO_MPU9250_ACCELEROMETER = "加速度計";
+Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER = "磁力計";

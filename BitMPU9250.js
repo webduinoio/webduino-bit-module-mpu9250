@@ -12,8 +12,8 @@
     proto;
 
   var MPU9250Event = {
-    GYROSCOPE_MESSAGE: 'a',
-    ACCELEROMETER_MESSAGE: 'g',
+    ACCELEROMETER_MESSAGE: 'a',
+    GYROSCOPE_MESSAGE: 'g',
     MAGNETOMETER_MESSAGE: 'm',
   };
 
@@ -32,13 +32,10 @@
     this._messageHandler = onMessage.bind(this);
     this._init = false;
     this._info = {};
-    this.ACCELEROMETER = 'Accelerometer';
-    this.GYROSCOPE = 'Gyroscope';
-    this.MAGNETOMETER = 'Magnetometer';
     this._callback = function (info) { };
-    this._a_callback = function (t, x, y, z) { };
-    this._g_callback = function (t, x, y, z) { };
-    this._m_callback = function (t, x, y, z) { };
+    this._a_callback = function (x, y, z, t) { };
+    this._g_callback = function (x, y, z, t) { };
+    this._m_callback = function (x, y, z, t) { };
   }
 
   function parseMPU9250Info(q) {
@@ -65,13 +62,13 @@
         console.log("Stop mpu9250 detect.");
         break;
       case 0x11: //accelerometer data
-        this._a_callback(t, info[1], info[2], info[3]);
+        this._a_callback(info[1], info[2], info[3], t);
         break;
       case 0x12: //gyroscope data
-        this._g_callback(t, info[1], info[2], info[3]);
+        this._g_callback(info[1], info[2], info[3], t);
         break;
       case 0x13: //magnetometer data
-        this._m_callback(t, info[1], info[2], info[3]);
+        this._m_callback(info[1], info[2], info[3], t);
         break;
     }
   }
@@ -103,7 +100,7 @@
   }
 
   proto.on = function (sensorType, callback) {
-    if (this._state != 'on') {
+    if (this._state !== 'on') {
       this._state = 'on';
       this._board.send([0xf0, 0x04, 0x60, 0x02 /*start*/, 0xf7]);
       this._board.on(BoardEvent.SYSEX_MESSAGE, this._messageHandler);
@@ -112,15 +109,15 @@
       return;
     }
     switch (sensorType) {
-      case this.GYROSCOPE:
+      case MPU9250Event.ACCELEROMETER_MESSAGE:
         this._a_callback = callback;
         this._board.send([0xf0, 0x04, 0x60, 0x11, 0x1, 0xf7]);
         break;
-      case this.ACCELEROMETER:
+      case MPU9250Event.GYROSCOPE_MESSAGE:
         this._g_callback = callback;
         this._board.send([0xf0, 0x04, 0x60, 0x12, 0x1, 0xf7]);
         break;
-      case this.MAGNETOMETER:
+      case MPU9250Event.MAGNETOMETER_MESSAGE:
         this._m_callback = callback;
         this._board.send([0xf0, 0x04, 0x60, 0x13, 0x1, 0xf7]);
         break;
@@ -141,4 +138,5 @@
   };
 
   scope.module.MPU9250 = MPU9250;
+  scope.module.MPU9250Event = MPU9250Event;
 }));
