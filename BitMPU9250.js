@@ -30,9 +30,7 @@
     this._board = board;
     this._detectTime = 250;
     this._messageHandler = onMessage.bind(this);
-    this._init = false;
-    this._info = {};
-    this._callback = function (info) { };
+    this._callbackNum = 0;
     this._a_callback = function (x, y, z, t) { };
     this._g_callback = function (x, y, z, t) { };
     this._m_callback = function (x, y, z, t) { };
@@ -87,47 +85,88 @@
     }
   });
 
-  proto.stopAccelerometer = function (callback) {
-    this._board.send([0xf0, 0x04, 0x60, 0x12, 0x0, 0xf7]);
+  proto.startDetectAccelerometer = function (callback) {
+    this._a_callback = callback;
+    this._board.send([0xf0, 0x04, 0x60, 0x11, 0x1, 0xf7]);
+    this._callbackNum++;
   }
 
-  proto.stopDetectGyroscope = function (callback) {
+  proto.startDetectGyroscope = function (callback) {
+    this._g_callback = callback;
+    this._board.send([0xf0, 0x04, 0x60, 0x12, 0x1, 0xf7]);
+    this._callbackNum++;
+  }
+
+  proto.startDetectMagnetometer = function (callback) {
+    this._m_callback = callback;
+    this._board.send([0xf0, 0x04, 0x60, 0x13, 0x1, 0xf7]);
+    this._callbackNum++;
+  }
+
+  proto.stopDetectAccelerometer = function () {
+    this._a_callback = function (x, y, z, t) { };
     this._board.send([0xf0, 0x04, 0x60, 0x11, 0x0, 0xf7]);
+    this._callbackNum--;
   }
 
-  proto.stopDetectMagnetometer = function (callback) {
+  proto.stopDetectGyroscope = function () {
+    this._g_callback = function (x, y, z, t) { };
+    this._board.send([0xf0, 0x04, 0x60, 0x12, 0x0, 0xf7]);
+    this._callbackNum--;
+  }
+
+  proto.stopDetectMagnetometer = function () {
+    this._m_callback = function (x, y, z, t) { };
     this._board.send([0xf0, 0x04, 0x60, 0x13, 0x0, 0xf7]);
+    this._callbackNum--;
   }
 
   proto.on = function (sensorType, callback) {
+    if (arguments.length !== 2) {
+      return false;
+    }
+    switch (sensorType) {
+      case MPU9250Event.ACCELEROMETER_MESSAGE:
+        this.startDetectAccelerometer(callback);
+        break;
+      case MPU9250Event.GYROSCOPE_MESSAGE:
+        this.startDetectGyroscope(callback);
+        break;
+      case MPU9250Event.MAGNETOMETER_MESSAGE:
+        this.startDetectMagnetometer(callback);
+        break;
+      default:
+        return false;
+        break;
+    }
     if (this._state !== 'on') {
       this._state = 'on';
       this._board.send([0xf0, 0x04, 0x60, 0x02 /*start*/, 0xf7]);
       this._board.on(BoardEvent.SYSEX_MESSAGE, this._messageHandler);
     }
-    if (arguments.length == 0) {
-      return;
-    }
-    switch (sensorType) {
-      case MPU9250Event.ACCELEROMETER_MESSAGE:
-        this._a_callback = callback;
-        this._board.send([0xf0, 0x04, 0x60, 0x11, 0x1, 0xf7]);
-        break;
-      case MPU9250Event.GYROSCOPE_MESSAGE:
-        this._g_callback = callback;
-        this._board.send([0xf0, 0x04, 0x60, 0x12, 0x1, 0xf7]);
-        break;
-      case MPU9250Event.MAGNETOMETER_MESSAGE:
-        this._m_callback = callback;
-        this._board.send([0xf0, 0x04, 0x60, 0x13, 0x1, 0xf7]);
-        break;
-    }
   };
 
-  proto.off = function () {
-    this._state = 'off';
-    this._board.send([0xf0, 0x04, 0x60, 0x03, 0xf7]);
-    this._board.removeListener(BoardEvent.SYSEX_MESSAGE, this._messageHandler);
+  proto.off = function (sensorType) {
+    switch (sensorType) {
+      case MPU9250Event.ACCELEROMETER_MESSAGE:
+        this.stopDetectAccelerometer();
+        break;
+      case MPU9250Event.GYROSCOPE_MESSAGE:
+        this.stopDetectGyroscope();
+        break;
+      case MPU9250Event.MAGNETOMETER_MESSAGE:
+        this.stopDetectMagnetometer();
+        break;
+      default:
+        return false;
+        break;
+    }
+
+    if (this._callbackNum === 0) {
+      this._state = 'off';
+      this._board.send([0xf0, 0x04, 0x60, 0x03, 0xf7]);
+      this._board.removeListener(BoardEvent.SYSEX_MESSAGE, this._messageHandler);
+    }
   };
 
   proto.setDetectTime = function (detectTime) {

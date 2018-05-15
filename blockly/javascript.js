@@ -26,6 +26,6 @@ Blockly.JavaScript['mpu9250_val'] = function (block) {
 Blockly.JavaScript['mpu9250_stop'] = function (block) {
   var variable_name_ = Blockly.JavaScript.variableDB_.getName(block.getFieldValue('name_'), Blockly.Variables.NAME_TYPE);
   var dropdown_type_ = block.getFieldValue('type_');
-  var code = variable_name_ + '.' + dropdown_type_ + '();\n';
+  var code = variable_name_ + '.off(' + dropdown_type_ + ');\n';
   return code;
 };
