@@ -39,7 +39,7 @@
   function MPU9250(board) {
     Module.call(this);
     this._board = board;
-    this._detectTime = 250;
+    this._detectTimeType = 3; // 0: 50ms, 1: 100ms, 2: 250ms, 3: 500ms, 4: 1000ms
     this._messageHandler = onMessage.bind(this);
     this._startDetect = startDetect.bind(this);
     this._stopDetect = stopDetect.bind(this);
@@ -211,10 +211,10 @@
     }
   };
 
-  proto.setDetectTime = function (detectTime) {
-    if (detectTime !== this._detectTime) {
-      this._detectTime = detectTime;
-      this._board.send([0xf0, 0x04, 0x60, 0x01, detectTime, 0xf7]);
+  proto.setDetectTimeType = function (detectTimeType) {
+    if (detectTimeType !== this._detectTimeType) {
+      this._detectTimeType = detectTimeType;
+      this._board.send([0xf0, 0x04, 0x60, 0x01, detectTimeType, 0xf7]);
     }
   };
 

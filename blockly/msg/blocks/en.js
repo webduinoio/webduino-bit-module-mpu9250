@@ -8,4 +8,4 @@ Blockly.Msg.WEBDUINO_MPU9250_GYROSCOPE = "Gyroscope";
 Blockly.Msg.WEBDUINO_MPU9250_ACCELEROMETER = "Accelerometer";
 Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER = "Magnetometer";
 Blockly.Msg.WEBDUINO_MPU9250_SET = "Set";
-Blockly.Msg.WEBDUINO_MPU9250_DETECTTIME = "Detect time(ms)";
+Blockly.Msg.WEBDUINO_MPU9250_DETECTTIME = "Detect time";
