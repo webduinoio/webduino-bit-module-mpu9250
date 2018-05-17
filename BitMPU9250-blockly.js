@@ -2,7 +2,7 @@
 
   'use strict';
 
-  window.getMPU9250 = function (board, pin, leds) {
+  window.getMPU9250 = function (board) {
     return new webduino.module.MPU9250(board);
   };
 

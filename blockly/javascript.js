@@ -1,5 +1,5 @@
 Blockly.JavaScript['mpu9250_new'] = function (block) {
-  var code = 'getMPU9250(board, 6)';
+  var code = 'getMPU9250(board)';
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
