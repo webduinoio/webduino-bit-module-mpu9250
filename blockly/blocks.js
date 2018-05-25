@@ -73,8 +73,8 @@ Blockly.Blocks['mpu9250_detectTime'] = {
       .appendField(new Blockly.FieldVariable('mpu9250'), 'name_')
       .appendField(Blockly.Msg.WEBDUINO_MPU9250_DETECTTIME)
       .appendField(new Blockly.FieldDropdown([
-        ["50", "0"],
-        ["100", "1"],
+        ["150", "0"],
+        ["200", "1"],
         ["250", "2"],
         ["500", "3"],
         ["1000", "4"]
