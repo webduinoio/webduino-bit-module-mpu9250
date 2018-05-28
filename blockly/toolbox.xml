@@ -9,6 +9,6 @@
   <block type="mpu9250_val"></block>
   <block type="mpu9250_stop"></block>
   <block type="mpu9250_detectTime">
-    <field name="detectTime_">250</field>
+    <field name="detectTimeType_">3</field>
   </block>
 </category>
