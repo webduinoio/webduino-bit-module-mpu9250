@@ -19,8 +19,9 @@ Blockly.Blocks['mpu9250_detected'] = {
       .appendField(Blockly.Msg.WEBDUINO_MPU9250_DETECTED)
       .appendField(new Blockly.FieldDropdown([
         [Blockly.Msg.WEBDUINO_MPU9250_ACCELEROMETER, 'webduino.module.MPU9250Event.ACCELEROMETER_MESSAGE'], 
-        [Blockly.Msg.WEBDUINO_MPU9250_GYROSCOPE, 'webduino.module.MPU9250Event.GYROSCOPE_MESSAGE'], 
-        [Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER, 'webduino.module.MPU9250Event.MAGNETOMETER_MESSAGE']
+        [Blockly.Msg.WEBDUINO_MPU9250_GYROSCOPE, 'webduino.module.MPU9250Event.GYROSCOPE_MESSAGE']
+        // , 
+        // [Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER, 'webduino.module.MPU9250Event.MAGNETOMETER_MESSAGE']
       ]), 'type_');
     this.appendStatementInput("do_")
       .appendField(Blockly.Msg.WEBDUINO_MPU9250_DO);
@@ -55,8 +56,9 @@ Blockly.Blocks['mpu9250_stop'] = {
       .appendField(Blockly.Msg.WEBDUINO_MPU9250_STOP)
       .appendField(new Blockly.FieldDropdown([
         [Blockly.Msg.WEBDUINO_MPU9250_ACCELEROMETER, 'webduino.module.MPU9250Event.ACCELEROMETER_MESSAGE'],
-        [Blockly.Msg.WEBDUINO_MPU9250_GYROSCOPE, 'webduino.module.MPU9250Event.GYROSCOPE_MESSAGE'],
-        [Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER, 'webduino.module.MPU9250Event.MAGNETOMETER_MESSAGE']
+        [Blockly.Msg.WEBDUINO_MPU9250_GYROSCOPE, 'webduino.module.MPU9250Event.GYROSCOPE_MESSAGE']
+        // ,
+        // [Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER, 'webduino.module.MPU9250Event.MAGNETOMETER_MESSAGE']
       ]), 'type_');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
