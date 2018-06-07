@@ -1,4 +1,4 @@
-<category id="catMPU9250" index="10">
+<category id="catMPU9250" index="9">
   <block type="variables_set">
     <field name="VAR">mpu9250</field>
     <value name="VALUE">
@@ -9,6 +9,6 @@
   <block type="mpu9250_val"></block>
   <block type="mpu9250_stop"></block>
   <block type="mpu9250_detectTime">
-    <field name="detectTimeType_">2</field>
+    <field name="detectTime_">250</field>
   </block>
 </category>

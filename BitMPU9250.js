@@ -15,6 +15,7 @@
     ACCELEROMETER_MESSAGE: 'a',
     GYROSCOPE_MESSAGE: 'g',
     MAGNETOMETER_MESSAGE: 'm',
+    ANGLE_MESSAGE: 'o',   // Attitude angle : Orientation
   };
 
   var COMMAND = {
@@ -25,7 +26,9 @@
     "START_GYR": [0xf0, 0x04, 0x60, 0x12, 0x1, 0xf7],
     "STOP_GYR": [0xf0, 0x04, 0x60, 0x12, 0x0, 0xf7],
     "START_MAG": [0xf0, 0x04, 0x60, 0x13, 0x1, 0xf7],
-    "STOP_MAG": [0xf0, 0x04, 0x60, 0x13, 0x0, 0xf7]
+    "STOP_MAG": [0xf0, 0x04, 0x60, 0x13, 0x0, 0xf7],
+    "START_ANG": [0xf0, 0x04, 0x60, 0x14, 0x1, 0xf7],
+    "STOP_ANG": [0xf0, 0x04, 0x60, 0x14, 0x0, 0xf7]
   };
 
   /**
@@ -47,6 +50,7 @@
     this._a_handlers = [];
     this._g_handlers = [];
     this._m_handlers = [];
+    this._o_handlers = [];
   }
 
   function parseMPU9250Info(q) {
@@ -87,6 +91,11 @@
           cb.call(null, info[1], info[2], info[3], t);
         });
         break;
+      case 0x14: //Attitude angle data
+        this._o_handlers.forEach(function (cb) {
+          cb.call(null, info[1], info[2], info[3], t);
+        });
+        break;
     }
   }
 
@@ -112,6 +121,12 @@
           this._board.send(COMMAND.START_MAG);
         }
         this._m_handlers.push(handler);
+        break;
+      case MPU9250Event.ANGLE_MESSAGE:
+        if (this._o_handlers.length === 0) {
+          this._board.send(COMMAND.START_ANG);
+        }
+        this._o_handlers.push(handler);
         break;
       default:
         return false;
@@ -143,6 +158,13 @@
           this._board.send(COMMAND.STOP_MAG);
         }
         break;
+      case MPU9250Event.ANGLE_MESSAGE:
+        var idx = this._o_handlers.indexOf(handler);
+        this._o_handlers.splice(idx, 1);
+        if (this._o_handlers.length === 0) {
+          this._board.send(COMMAND.STOP_ANG);
+        }
+        break;
       default:
         return false;
         break;
@@ -163,6 +185,10 @@
       case MPU9250Event.MAGNETOMETER_MESSAGE:
         this._m_handlers.length = 0;
         this._board.send(COMMAND.STOP_MAG);
+        break;
+      case MPU9250Event.ANGLE_MESSAGE:
+        this._o_handlers.length = 0;
+        this._board.send(COMMAND.STOP_ANG);
         break;
       default:
         return false;
@@ -204,7 +230,7 @@
     } else {
       result = this._stopDetect(sensorType, handler);
     }
-    if (result && !this._a_handlers.length && !this._g_handlers.length && !this._m_handlers.length) {
+    if (result && !this._a_handlers.length && !this._g_handlers.length && !this._m_handlers.length && !this._o_handlers.length) {
       this._state = 'off';
       this._board.send(COMMAND.STOP_DETECT);
       this._board.removeListener(BoardEvent.SYSEX_MESSAGE, this._messageHandler);
