@@ -20,7 +20,7 @@ Blockly.Blocks['mpu9250_detected'] = {
       .appendField(new Blockly.FieldDropdown([
         [Blockly.Msg.WEBDUINO_MPU9250_ACCELEROMETER, 'webduino.module.MPU9250Event.ACCELEROMETER_MESSAGE'], 
         [Blockly.Msg.WEBDUINO_MPU9250_GYROSCOPE, 'webduino.module.MPU9250Event.GYROSCOPE_MESSAGE'], 
-        [Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER, 'webduino.module.MPU9250Event.MAGNETOMETER_MESSAGE'],
+        // [Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER, 'webduino.module.MPU9250Event.MAGNETOMETER_MESSAGE'],
         [Blockly.Msg.WEBDUINO_MPU9250_ANGLE, 'webduino.module.MPU9250Event.ANGLE_MESSAGE']
       ]), 'type_');
     this.appendStatementInput("do_")
@@ -30,6 +30,11 @@ Blockly.Blocks['mpu9250_detected'] = {
     this.setColour(65);
     this.setTooltip("");
     this.setHelpUrl("");
+  },
+  onchange: function () {
+    if (this.getFieldValue('type_') === 'webduino.module.MPU9250Event.MAGNETOMETER_MESSAGE') {
+      this.setFieldValue('webduino.module.MPU9250Event.ACCELEROMETER_MESSAGE', 'type_');
+    }
   }
 };
 
