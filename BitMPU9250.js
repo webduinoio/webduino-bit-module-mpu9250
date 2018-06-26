@@ -56,7 +56,6 @@
   function parseMPU9250Info(q) {
     if (q[0] != 0x60) return "";
     var info = String.fromCharCode(q[1] + 0x20) + " ";
-    var xType = q[1];
     for (var i = 2; i < q.length; i++) {
       info += String.fromCharCode(q[i]);
     }
@@ -68,8 +67,14 @@
     var msg = event.message;
     if (msg[0] != 0x60) return;
     var info = parseMPU9250Info(msg);
-    var t = new Date().getTime();
-    switch (msg[1]) {
+    var handle = function (handlers, valAry) {
+      handlers.forEach(function (cb) {
+        cb.call(null, valAry[0], valAry[1], valAry[2], new Date().getTime());
+      });
+    };
+    var commandType = msg[1];
+    var vals = info.slice(1, 4);
+    switch (commandType) {
       case 0x02: //start
         console.log("Start mpu9250 detect...");
         break;
@@ -77,24 +82,20 @@
         console.log("Stop mpu9250 detect.");
         break;
       case 0x11: //accelerometer data
-        this._a_handlers.forEach(function (cb) {
-          cb.call(null, info[1], info[2], info[3], t);
-        });
+        this._accVals = vals;
+        handle(this._a_handlers, vals);
         break;
       case 0x12: //gyroscope data
-        this._g_handlers.forEach(function (cb) {
-          cb.call(null, info[1], info[2], info[3], t);
-        });
+        this._gyrVals = vals;
+        handle(this._g_handlers, vals);
         break;
       case 0x13: //magnetometer data
-        this._m_handlers.forEach(function (cb) {
-          cb.call(null, info[1], info[2], info[3], t);
-        });
+        this._magVals = vals;
+        handle(this._m_handlers, vals);
         break;
       case 0x14: //Attitude angle data
-        this._o_handlers.forEach(function (cb) {
-          cb.call(null, info[1], info[2], info[3], t);
-        });
+        this._angVals = vals;
+        handle(this._o_handlers, vals);
         break;
     }
   }
@@ -207,6 +208,26 @@
       },
       set: function (val) {
         this._state = val;
+      }
+    },
+    accVals: {
+      get: function () {
+        return this._accVals || [];
+      }
+    },
+    gyrVals: {
+      get: function () {
+        return this._gyrVals || [];
+      }
+    },
+    magVals: {
+      get: function () {
+        return this._magVals || [];
+      }
+    },
+    angVals: {
+      get: function () {
+        return this._angVals || [];
       }
     }
   });
