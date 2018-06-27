@@ -14,15 +14,19 @@ Blockly.Blocks['mpu9250_new'] = {
 
 Blockly.Blocks['mpu9250_detected'] = {
   init: function () {
+    function getDropDownValue() {
+      return [
+        [Blockly.Msg.WEBDUINO_MPU9250_ACCELEROMETER, 'webduino.module.MPU9250Event.ACCELEROMETER_MESSAGE'],
+        [Blockly.Msg.WEBDUINO_MPU9250_GYROSCOPE, 'webduino.module.MPU9250Event.GYROSCOPE_MESSAGE'],
+        // [Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER, 'webduino.module.MPU9250Event.MAGNETOMETER_MESSAGE'],
+        [Blockly.Msg.WEBDUINO_MPU9250_ANGLE, 'webduino.module.MPU9250Event.ANGLE_MESSAGE']
+      ];
+    }
+
     this.appendDummyInput()
       .appendField(new Blockly.FieldVariable("mpu9250"), "name_")
       .appendField(Blockly.Msg.WEBDUINO_MPU9250_DETECTED)
-      .appendField(new Blockly.FieldDropdown([
-        [Blockly.Msg.WEBDUINO_MPU9250_ACCELEROMETER, 'webduino.module.MPU9250Event.ACCELEROMETER_MESSAGE'], 
-        [Blockly.Msg.WEBDUINO_MPU9250_GYROSCOPE, 'webduino.module.MPU9250Event.GYROSCOPE_MESSAGE'], 
-        // [Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER, 'webduino.module.MPU9250Event.MAGNETOMETER_MESSAGE'],
-        [Blockly.Msg.WEBDUINO_MPU9250_ANGLE, 'webduino.module.MPU9250Event.ANGLE_MESSAGE']
-      ]), 'type_');
+      .appendField(new Blockly.FieldDropdown(getDropDownValue), 'type_');
     this.appendStatementInput("do_")
       .appendField(Blockly.Msg.WEBDUINO_MPU9250_DO);
     this.setPreviousStatement(true);
@@ -40,11 +44,9 @@ Blockly.Blocks['mpu9250_detected'] = {
 
 Blockly.Blocks['mpu9250_val'] = {
   init: function () {
-    this.appendDummyInput()
-      .appendField(new Blockly.FieldVariable("mpu9250"), "name_")
-      .appendField(Blockly.Msg.WEBDUINO_MPU9250_S)
-      .appendField(new Blockly.FieldDropdown([
-        [Blockly.Msg.WEBDUINO_MPU9250_VAL_X1 + " ", 'accVals[0]'], // 可能是 bug，必須加個 " "，才能顯示正常
+    function getDropDownValue() {
+      return [
+        [Blockly.Msg.WEBDUINO_MPU9250_VAL_X1, 'accVals[0]'],
         [Blockly.Msg.WEBDUINO_MPU9250_VAL_Y1, 'accVals[1]'],
         [Blockly.Msg.WEBDUINO_MPU9250_VAL_Z1, 'accVals[2]'],
         [Blockly.Msg.WEBDUINO_MPU9250_VAL_X2, 'gyrVals[0]'],
@@ -57,7 +59,13 @@ Blockly.Blocks['mpu9250_val'] = {
         [Blockly.Msg.WEBDUINO_MPU9250_VAL_Y4, 'angVals[1]']
         // ,
         // [Blockly.Msg.WEBDUINO_MPU9250_VAL_Z4, 'angVals[2]']
-      ]), "val_")
+      ];
+    }
+
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldVariable("mpu9250"), "name_")
+      .appendField(Blockly.Msg.WEBDUINO_MPU9250_S)
+      .appendField(new Blockly.FieldDropdown(getDropDownValue), "val_")
       .appendField(Blockly.Msg.WEBDUINO_MPU9250_VAL);
     this.setOutput(true, null);
     this.setColour(35);
@@ -84,15 +92,19 @@ Blockly.Blocks['mpu9250_val'] = {
 
 Blockly.Blocks['mpu9250_stop'] = {
   init: function () {
-    this.appendDummyInput()
-      .appendField(new Blockly.FieldVariable('mpu9250'), 'name_')
-      .appendField(Blockly.Msg.WEBDUINO_MPU9250_STOP)
-      .appendField(new Blockly.FieldDropdown([
+    function getDropDownValue() {
+      return [
         [Blockly.Msg.WEBDUINO_MPU9250_ACCELEROMETER, 'webduino.module.MPU9250Event.ACCELEROMETER_MESSAGE'],
         [Blockly.Msg.WEBDUINO_MPU9250_GYROSCOPE, 'webduino.module.MPU9250Event.GYROSCOPE_MESSAGE'],
         // [Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER, 'webduino.module.MPU9250Event.MAGNETOMETER_MESSAGE'],
         [Blockly.Msg.WEBDUINO_MPU9250_ANGLE, 'webduino.module.MPU9250Event.ANGLE_MESSAGE']
-      ]), 'type_');
+      ];
+    }
+
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldVariable('mpu9250'), 'name_')
+      .appendField(Blockly.Msg.WEBDUINO_MPU9250_STOP)
+      .appendField(new Blockly.FieldDropdown(getDropDownValue), 'type_');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setColour(65);
@@ -108,17 +120,21 @@ Blockly.Blocks['mpu9250_stop'] = {
 
 Blockly.Blocks['mpu9250_detectTime'] = {
   init: function () {
-    this.appendDummyInput()
-      .appendField(Blockly.Msg.WEBDUINO_MPU9250_SET)
-      .appendField(new Blockly.FieldVariable('mpu9250'), 'name_')
-      .appendField(Blockly.Msg.WEBDUINO_MPU9250_DETECTTIME)
-      .appendField(new Blockly.FieldDropdown([
+    function getDropDownValue() {
+      return [
         ["150", "0"],
         ["200", "1"],
         ["250", "2"],
         ["500", "3"],
         ["1000", "4"]
-      ]), 'detectTimeType_')
+      ];
+    }
+
+    this.appendDummyInput()
+      .appendField(Blockly.Msg.WEBDUINO_MPU9250_SET)
+      .appendField(new Blockly.FieldVariable('mpu9250'), 'name_')
+      .appendField(Blockly.Msg.WEBDUINO_MPU9250_DETECTTIME)
+      .appendField(new Blockly.FieldDropdown(getDropDownValue), 'detectTimeType_')
       .appendField("ms");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
