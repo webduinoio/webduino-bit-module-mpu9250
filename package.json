@@ -1,7 +1,9 @@
 {
   "name": "webduino-bit-module-mpu9250",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MPU9250 Module for Webduino:bit",
+  "repository": "https://github.com/webduinoio/webduino-bit-module-mpu9250.git",
+  "homepage": "https://webduino.io",
   "main": "BitMPU9250.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
