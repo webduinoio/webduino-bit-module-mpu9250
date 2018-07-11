@@ -1,8 +1,8 @@
 {
-  "name": "webduino-module-bit-mpu9250",
-  "version": "1.0.0",
+  "name": "webduino-bit-module-mpu9250",
+  "version": "0.1.0",
   "description": "MPU9250 Module for Webduino",
-  "main": "BitMPU9250-blockly.js",
+  "main": "BitMPU9250.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
