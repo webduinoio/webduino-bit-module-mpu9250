@@ -1,6 +1,6 @@
 {
-  "name": "webduino-bit-module-mpu9250",
-  "version": "0.1.1",
+  "name": "@webduinoio/bit-mpu9250",
+  "version": "0.1.2",
   "description": "MPU9250 Module for Webduino:bit",
   "repository": "https://github.com/webduinoio/webduino-bit-module-mpu9250.git",
   "homepage": "https://webduino.io",
