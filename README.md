@@ -9,13 +9,13 @@ bower install https://github.com/webduinoio/webduino-bit-module-mpu9250.git
 ```
 #### Node.js
 ```sh
-$ npm install webduino-bit-module-mpu9250
+$ npm install @webduinoio/bit-mpu9250
 ```
 
 ## Usage
 ```javascript
 let webduino = require('webduino-js');
-require('webduino-bit-module-mpu9250')(webduino);
+require('@webduinoio/bit-mpu9250')(webduino);
 
 const opts = {
   board: 'Bit',
