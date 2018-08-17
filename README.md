@@ -1,6 +1,6 @@
 # webduino-bit-module-mpu9250
 
-Module for Webduino:bit MPU9250.
+Module for MPU9250 of Webduino:bit.
 
 ## Installation
 #### bower
