@@ -18,8 +18,9 @@ Blockly.Blocks['mpu9250_detected'] = {
       return [
         [Blockly.Msg.WEBDUINO_MPU9250_ACCELEROMETER, 'webduino.module.MPU9250Event.ACCELEROMETER_MESSAGE'],
         [Blockly.Msg.WEBDUINO_MPU9250_GYROSCOPE, 'webduino.module.MPU9250Event.GYROSCOPE_MESSAGE'],
-        // [Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER, 'webduino.module.MPU9250Event.MAGNETOMETER_MESSAGE'],
-        [Blockly.Msg.WEBDUINO_MPU9250_ANGLE, 'webduino.module.MPU9250Event.ANGLE_MESSAGE']
+        [Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER, 'webduino.module.MPU9250Event.MAGNETOMETER_MESSAGE'],
+        [Blockly.Msg.WEBDUINO_MPU9250_ANGLE, 'webduino.module.MPU9250Event.ANGLE_MESSAGE'],
+        [Blockly.Msg.WEBDUINO_MPU9250_AZIMUTH, 'webduino.module.MPU9250Event.AZIMUTH_MESSAGE']
       ];
     }
 
@@ -52,13 +53,13 @@ Blockly.Blocks['mpu9250_val'] = {
         [Blockly.Msg.WEBDUINO_MPU9250_VAL_X2, 'gyrVals[0]'],
         [Blockly.Msg.WEBDUINO_MPU9250_VAL_Y2, 'gyrVals[1]'],
         [Blockly.Msg.WEBDUINO_MPU9250_VAL_Z2, 'gyrVals[2]'],
-        // [Blockly.Msg.WEBDUINO_MPU9250_VAL_X3, 'magVals[0]'],
-        // [Blockly.Msg.WEBDUINO_MPU9250_VAL_Y3, 'magVals[1]'],
-        // [Blockly.Msg.WEBDUINO_MPU9250_VAL_Z3, 'magVals[2]'],
+        [Blockly.Msg.WEBDUINO_MPU9250_VAL_X3, 'magVals[0]'],
+        [Blockly.Msg.WEBDUINO_MPU9250_VAL_Y3, 'magVals[1]'],
+        [Blockly.Msg.WEBDUINO_MPU9250_VAL_Z3, 'magVals[2]'],
         [Blockly.Msg.WEBDUINO_MPU9250_VAL_X4, 'angVals[0]'],
-        [Blockly.Msg.WEBDUINO_MPU9250_VAL_Y4, 'angVals[1]']
-        // ,
-        // [Blockly.Msg.WEBDUINO_MPU9250_VAL_Z4, 'angVals[2]']
+        [Blockly.Msg.WEBDUINO_MPU9250_VAL_Y4, 'angVals[1]'],
+        [Blockly.Msg.WEBDUINO_MPU9250_VAL_Z4, 'angVals[2]'],
+        [Blockly.Msg.WEBDUINO_MPU9250_VAL_C, 'aziVals[0]']
       ];
     }
 
@@ -96,8 +97,9 @@ Blockly.Blocks['mpu9250_stop'] = {
       return [
         [Blockly.Msg.WEBDUINO_MPU9250_ACCELEROMETER, 'webduino.module.MPU9250Event.ACCELEROMETER_MESSAGE'],
         [Blockly.Msg.WEBDUINO_MPU9250_GYROSCOPE, 'webduino.module.MPU9250Event.GYROSCOPE_MESSAGE'],
-        // [Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER, 'webduino.module.MPU9250Event.MAGNETOMETER_MESSAGE'],
-        [Blockly.Msg.WEBDUINO_MPU9250_ANGLE, 'webduino.module.MPU9250Event.ANGLE_MESSAGE']
+        [Blockly.Msg.WEBDUINO_MPU9250_MAGNETOMETER, 'webduino.module.MPU9250Event.MAGNETOMETER_MESSAGE'],
+        [Blockly.Msg.WEBDUINO_MPU9250_ANGLE, 'webduino.module.MPU9250Event.ANGLE_MESSAGE'],
+        [Blockly.Msg.WEBDUINO_MPU9250_AZIMUTH, 'webduino.module.MPU9250Event.AZIMUTH_MESSAGE']
       ];
     }
 

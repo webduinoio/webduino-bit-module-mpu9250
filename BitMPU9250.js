@@ -16,6 +16,7 @@
     GYROSCOPE_MESSAGE: 'g',
     MAGNETOMETER_MESSAGE: 'm',
     ANGLE_MESSAGE: 'o',   // Attitude angle : Orientation
+    AZIMUTH_MESSAGE: 'c',   // Azimuth : compass
   };
 
   var COMMAND = {
@@ -28,7 +29,9 @@
     "START_MAG": [0xf0, 0x04, 0x60, 0x13, 0x1, 0xf7],
     "STOP_MAG": [0xf0, 0x04, 0x60, 0x13, 0x0, 0xf7],
     "START_ANG": [0xf0, 0x04, 0x60, 0x14, 0x1, 0xf7],
-    "STOP_ANG": [0xf0, 0x04, 0x60, 0x14, 0x0, 0xf7]
+    "STOP_ANG": [0xf0, 0x04, 0x60, 0x14, 0x0, 0xf7],
+    "START_AZI": [0xf0, 0x04, 0x60, 0x15, 0x1, 0xf7],
+    "STOP_AZI": [0xf0, 0x04, 0x60, 0x15, 0x0, 0xf7]
   };
 
   /**
@@ -51,6 +54,7 @@
     this._g_handlers = [];
     this._m_handlers = [];
     this._o_handlers = [];
+    this._c_handlers = [];
   }
 
   function parseMPU9250Info(q) {
@@ -74,6 +78,7 @@
     };
     var commandType = msg[1];
     var vals = info.slice(1, 4);
+    console.log(vals);
     switch (commandType) {
       case 0x02: //start
         console.log("Start mpu9250 detect...");
@@ -96,6 +101,10 @@
       case 0x14: //Attitude angle data
         this._angVals = vals;
         handle(this._o_handlers, vals);
+        break;
+      case 0x15: //Attitude angle data
+        this._aziVals = vals;
+        handle(this._c_handlers, vals);
         break;
     }
   }
@@ -128,6 +137,12 @@
           this._board.send(COMMAND.START_ANG);
         }
         this._o_handlers.push(handler);
+        break;
+      case MPU9250Event.AZIMUTH_MESSAGE:
+        if (this._c_handlers.length === 0) {
+          this._board.send(COMMAND.START_AZI);
+        }
+        this._c_handlers.push(handler);
         break;
       default:
         return false;
@@ -166,6 +181,13 @@
           this._board.send(COMMAND.STOP_ANG);
         }
         break;
+      case MPU9250Event.AZIMUTH_MESSAGE:
+        var idx = this._c_handlers.indexOf(handler);
+        this._c_handlers.splice(idx, 1);
+        if (this._c_handlers.length === 0) {
+          this._board.send(COMMAND.STOP_AZI);
+        }
+        break;
       default:
         return false;
         break;
@@ -190,6 +212,10 @@
       case MPU9250Event.ANGLE_MESSAGE:
         this._o_handlers.length = 0;
         this._board.send(COMMAND.STOP_ANG);
+        break;
+      case MPU9250Event.AZIMUTH_MESSAGE:
+        this._c_handlers.length = 0;
+        this._board.send(COMMAND.STOP_AZI);
         break;
       default:
         return false;
@@ -229,6 +255,11 @@
       get: function () {
         return this._angVals || [];
       }
+    },
+    aziVals: {
+      get: function () {
+        return this._aziVals || [];
+      }
     }
   });
 
@@ -251,7 +282,7 @@
     } else {
       result = this._stopDetect(sensorType, handler);
     }
-    if (result && !this._a_handlers.length && !this._g_handlers.length && !this._m_handlers.length && !this._o_handlers.length) {
+    if (result && !this._a_handlers.length && !this._g_handlers.length && !this._m_handlers.length && !this._o_handlers.length && !this._c_handlers.length) {
       this._state = 'off';
       this._board.send(COMMAND.STOP_DETECT);
       this._board.removeListener(BoardEvent.SYSEX_MESSAGE, this._messageHandler);

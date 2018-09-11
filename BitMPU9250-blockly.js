@@ -1,14 +1,9 @@
-+(function (factory) {
-  if (typeof exports === 'undefined') {
-    factory(window, window.webduino);
-  } else {
-    module.exports = factory;
-  }
-}(function (scope, webduino) {
++(function (window, webduino) {
 
   'use strict';
 
-  scope.getMPU9250 = function (board) {
+  window.getMPU9250 = function (board) {
     return new webduino.module.MPU9250(board);
   };
-}));
+
+}(window, window.webduino));
