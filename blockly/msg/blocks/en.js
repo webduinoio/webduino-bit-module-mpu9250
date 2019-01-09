@@ -1,4 +1,4 @@
-Blockly.Msg.WEBDUINO_MPU9250 = "9-axis Sensor";
+Blockly.Msg.WEBDUINO_MPU9250 = "(Bit) 9-axis Sensor";
 Blockly.Msg.WEBDUINO_MPU9250_DETECTED = "When Detecting";
 Blockly.Msg.WEBDUINO_MPU9250_DO = "Do";
 Blockly.Msg.WEBDUINO_MPU9250_VAL = "value";

@@ -1,4 +1,4 @@
-<category id="catMPU9250" index="10">
+<category id="catMPU9250" index="10" tags="bit">
   <block type="variables_set">
     <field name="VAR">mpu9250</field>
     <value name="VALUE">

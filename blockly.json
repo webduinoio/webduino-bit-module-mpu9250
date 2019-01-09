@@ -5,7 +5,7 @@
     "mpu9250_val",
     "mpu9250_stop"
   ],
-  "category": "toolbox",
+  "category": "catMenu3",
   "scripts": [
     "blockly/blocks.js",
     "blockly/javascript.js"

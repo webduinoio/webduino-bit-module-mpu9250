@@ -1,4 +1,4 @@
-Blockly.Msg.WEBDUINO_MPU9250 = "九轴感测器";
+Blockly.Msg.WEBDUINO_MPU9250 = "(Bit) 九轴感测器";
 Blockly.Msg.WEBDUINO_MPU9250_DETECTED = "开始侦测";
 Blockly.Msg.WEBDUINO_MPU9250_DO = "执行";
 Blockly.Msg.WEBDUINO_MPU9250_VAL = "数值";
